@@ -1,70 +1,110 @@
-<!-- result.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>投票结果</title>
+    <title>投票即時結果</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
         }
-        .result-item {
-            margin: 10px 0;
+        h1 {
+            font-size: 36px;
         }
-        .result-item span {
+        .candidate {
+            font-size: 30px;
+            margin: 20px 0;
+        }
+        .votes {
+            font-size: 40px;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
+    <h1>投票即時結果</h1>
 
-    <h1>投票结果</h1>
-    <p>实时更新中：</p>
-
-    <div id="results"></div>
+    <div id="result">
+        <div class="candidate" id="candidate-1">
+            <span>1號-高雄總院 王大德</span>
+            <div class="votes" id="votes-1">0</div>
+        </div>
+        <div class="candidate" id="candidate-2">
+            <span>2號-屏東分院 呂曉芬</span>
+            <div class="votes" id="votes-2">0</div>
+        </div>
+        <div class="candidate" id="candidate-3">
+            <span>3號-高雄總院 蔡鈺同</span>
+            <div class="votes" id="votes-3">0</div>
+        </div>
+        <div class="candidate" id="candidate-4">
+            <span>4號-高雄總院 王仁川</span>
+            <div class="votes" id="votes-4">0</div>
+        </div>
+        <div class="candidate" id="candidate-5">
+            <span>5號-台南分院 郭鈺婷</span>
+            <div class="votes" id="votes-5">0</div>
+        </div>
+        <div class="candidate" id="candidate-6">
+            <span>6號-高雄總院 陳芳彥</span>
+            <div class="votes" id="votes-6">0</div>
+        </div>
+        <div class="candidate" id="candidate-7">
+            <span>7號-台南分院 王輝達</span>
+            <div class="votes" id="votes-7">0</div>
+        </div>
+        <div class="candidate" id="candidate-8">
+            <span>8號-屏東分院 黃正興</span>
+            <div class="votes" id="votes-8">0</div>
+        </div>
+        <div class="candidate" id="candidate-9">
+            <span>9號-高雄總院 方傳甫</span>
+            <div class="votes" id="votes-9">0</div>
+        </div>
+        <div class="candidate" id="candidate-10">
+            <span>10號-高雄總院 鄭愛玲</span>
+            <div class="votes" id="votes-10">0</div>
+        </div>
+    </div>
 
     <script>
-        let votes = {
-            "候选人 A": 0,
-            "候选人 B": 0,
-            "候选人 C": 0,
-            "候选人 D": 0,
-            "候选人 E": 0,
-            "候选人 F": 0,
-            "候选人 G": 0,
-            "候选人 H": 0,
-            "候选人 I": 0,
-            "候选人 J": 0
+        // 讀取 URL 查詢參數
+        var params = new URLSearchParams(window.location.search);
+        var votes = {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0,
+            5: 0,
+            6: 0,
+            7: 0,
+            8: 0,
+            9: 0,
+            10: 0
         };
 
-        // 从 localStorage 加载票数
-        if (localStorage.getItem("votes")) {
-            votes = JSON.parse(localStorage.getItem("votes"));
+        // 讀取所有 'vote' 參數並計數
+        params.getAll('vote').forEach(function(vote) {
+            votes[vote]++;
+        });
+
+        // 更新每個選手的票數顯示
+        for (var i = 1; i <= 10; i++) {
+            document.getElementById('votes-' + i).innerText = votes[i];
         }
 
-        // 按票数排序候选人
-        function sortVotes() {
-            const sortedVotes = Object.entries(votes).sort((a, b) => b[1] - a[1]);
-            const resultsDiv = document.getElementById("results");
-            resultsDiv.innerHTML = ""; // 清空当前结果
+        // 排序選手並依票數排序
+        var sortedCandidates = Object.keys(votes).sort(function(a, b) {
+            return votes[b] - votes[a];
+        });
 
-            // 显示结果
-            sortedVotes.forEach(([candidate, voteCount]) => {
-                const resultItem = document.createElement("div");
-                resultItem.classList.add("result-item");
-                resultItem.innerHTML = `${candidate}: <span>${voteCount}</span> 票`;
-                resultsDiv.appendChild(resultItem);
-            });
-        }
-
-        // 初始化结果页面
-        sortVotes();
-
-        // 设置定时器每隔 2 秒更新一次
-        setInterval(sortVotes, 2000);
+        var resultDiv = document.getElementById('result');
+        sortedCandidates.forEach(function(candidateId) {
+            var candidateDiv = document.getElementById('candidate-' + candidateId);
+            resultDiv.appendChild(candidateDiv);
+        });
     </script>
-
 </body>
 </html>
