@@ -1,127 +1,55 @@
-<!-- vote.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>投票页面</title>
+    <title>請選下三名你心目中的正德歌王歌后!!!</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 36px;
         }
         .candidate {
             margin: 10px 0;
+            font-size: 18px;
         }
-        button {
+        .submit-btn {
+            margin-top: 20px;
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 18px;
             background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
         }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .submit-btn:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
+    <h1>請選下三名你心目中的正德歌王歌后!!!</h1>
 
-    <h1>在线投票系统</h1>
-    <p>请选择您心目中的三位候选人进行投票：</p>
-
-    <form id="voteForm">
+    <form action="result.html" method="GET">
         <div class="candidate">
-            <input type="checkbox" id="candidate1" name="candidate" value="候选人 A">
-            <label for="candidate1">候选人 A</label>
+            <input type="checkbox" name="vote" value="1"> 1號-高雄總院 王大德<br>
+            <input type="checkbox" name="vote" value="2"> 2號-屏東分院 呂曉芬<br>
+            <input type="checkbox" name="vote" value="3"> 3號-高雄總院 蔡鈺同<br>
+            <input type="checkbox" name="vote" value="4"> 4號-高雄總院 王仁川<br>
+            <input type="checkbox" name="vote" value="5"> 5號-台南分院 郭鈺婷<br>
+            <input type="checkbox" name="vote" value="6"> 6號-高雄總院 陳芳彥<br>
+            <input type="checkbox" name="vote" value="7"> 7號-台南分院 王輝達<br>
+            <input type="checkbox" name="vote" value="8"> 8號-屏東分院 黃正興<br>
+            <input type="checkbox" name="vote" value="9"> 9號-高雄總院 方傳甫<br>
+            <input type="checkbox" name="vote" value="10"> 10號-高雄總院 鄭愛玲<br>
         </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate2" name="candidate" value="候选人 B">
-            <label for="candidate2">候选人 B</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate3" name="candidate" value="候选人 C">
-            <label for="candidate3">候选人 C</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate4" name="candidate" value="候选人 D">
-            <label for="candidate4">候选人 D</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate5" name="candidate" value="候选人 E">
-            <label for="candidate5">候选人 E</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate6" name="candidate" value="候选人 F">
-            <label for="candidate6">候选人 F</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate7" name="candidate" value="候选人 G">
-            <label for="candidate7">候选人 G</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate8" name="candidate" value="候选人 H">
-            <label for="candidate8">候选人 H</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate9" name="candidate" value="候选人 I">
-            <label for="candidate9">候选人 I</label>
-        </div>
-        <div class="candidate">
-            <input type="checkbox" id="candidate10" name="candidate" value="候选人 J">
-            <label for="candidate10">候选人 J</label>
-        </div>
-
-        <button type="button" id="submitVote" onclick="submitVote()">提交投票</button>
+        
+        <p><strong>請選擇三位選手！</strong></p>
+        <input type="submit" class="submit-btn" value="提交投票">
     </form>
-
-    <script>
-        let votes = {
-            "候选人 A": 0,
-            "候选人 B": 0,
-            "候选人 C": 0,
-            "候选人 D": 0,
-            "候选人 E": 0,
-            "候选人 F": 0,
-            "候选人 G": 0,
-            "候选人 H": 0,
-            "候选人 I": 0,
-            "候选人 J": 0
-        };
-
-        // 从 localStorage 加载已有的票数
-        if (localStorage.getItem("votes")) {
-            votes = JSON.parse(localStorage.getItem("votes"));
-        }
-
-        function submitVote() {
-            const selectedCandidates = Array.from(document.querySelectorAll('input[name="candidate"]:checked'))
-                .map(input => input.value);
-
-            // 检查最多只能选择 3 个候选人
-            if (selectedCandidates.length > 3) {
-                alert("您只能选择三位候选人！");
-                return;
-            }
-            if (selectedCandidates.length === 0) {
-                alert("请选择至少一位候选人！");
-                return;
-            }
-
-            // 更新票数
-            selectedCandidates.forEach(candidate => {
-                votes[candidate]++;
-            });
-
-            // 保存到 localStorage
-            localStorage.setItem("votes", JSON.stringify(votes));
-
-            // 提交后跳转到结果页面
-            window.location.href = "result.html";
-        }
-    </script>
-
 </body>
 </html>
