@@ -1,0 +1,70 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>投票结果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .result-item {
+            margin: 10px 0;
+        }
+        .result-item span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>投票结果</h1>
+    <p>实时更新中：</p>
+
+    <div id="results"></div>
+
+    <script>
+        let votes = {
+            "候选人 A": 0,
+            "候选人 B": 0,
+            "候选人 C": 0,
+            "候选人 D": 0,
+            "候选人 E": 0,
+            "候选人 F": 0,
+            "候选人 G": 0,
+            "候选人 H": 0,
+            "候选人 I": 0,
+            "候选人 J": 0
+        };
+
+        // 从 localStorage 加载票数
+        if (localStorage.getItem("votes")) {
+            votes = JSON.parse(localStorage.getItem("votes"));
+        }
+
+        // 按票数排序候选人
+        function sortVotes() {
+            const sortedVotes = Object.entries(votes).sort((a, b) => b[1] - a[1]);
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = ""; // 清空当前结果
+
+            // 显示结果
+            sortedVotes.forEach(([candidate, voteCount]) => {
+                const resultItem = document.createElement("div");
+                resultItem.classList.add("result-item");
+                resultItem.innerHTML = `${candidate}: <span>${voteCount}</span> 票`;
+                resultsDiv.appendChild(resultItem);
+            });
+        }
+
+        // 初始化结果页面
+        sortVotes();
+
+        // 设置定时器每隔 2 秒更新一次
+        setInterval(sortVotes, 2000);
+    </script>
+
+</body>
+</html>
